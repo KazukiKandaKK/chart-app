@@ -2,9 +2,7 @@ import Head from 'next/head';
 import { Inter } from '@next/font/google';
 import React from 'react';
 import Chart from 'chart.js/auto';
-import Cereals from 'src/entity/cereals.entity';
 import 'reflect-metadata';
-import connection from 'src/db/connection';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -88,9 +86,8 @@ export default function Home(props: any) {
 }
 
 export async function getServerSideProps(context: any) {
-  const conn = await connection();
-  const _cereals = await conn.getRepository(Cereals).find();
-  const cereals = JSON.parse(JSON.stringify(_cereals));
+  const response = await fetch('http://localhost:3000/api/cereals');
+  const cereals = await response.json();
   return {
     props: { cereals },
   };
