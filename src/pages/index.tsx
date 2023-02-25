@@ -2,6 +2,9 @@ import Head from 'next/head';
 import { Inter } from '@next/font/google';
 import React from 'react';
 import Chart from 'chart.js/auto';
+import Cereals from 'src/entity/cereals.entity';
+import 'reflect-metadata';
+import connection from 'src/db/connection';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -58,10 +61,7 @@ export default function Home(props: any) {
         },
       },
     };
-    myChart = new Chart(
-      document.getElementById('myChart') as HTMLCanvasElement,
-      config
-    );
+    myChart = new Chart(document.getElementById('myChart') as HTMLCanvasElement, config);
     return () => {
       myChart.destroy();
     };
@@ -70,16 +70,16 @@ export default function Home(props: any) {
     <>
       <Head>
         <title>chart-js-app</title>
-        <meta name="description" content="Chart.jsで散布図を表示するアプリ" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='Chart.jsで散布図を表示するアプリ' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
       <main>
         <section style={{ padding: '10pt' }}>
           <h1>chart-js-app</h1>
           <p>シリアルのデータ</p>
           <div style={{ width: '400pt' }}>
-            <canvas id="myChart" width="300" height="300"></canvas>
+            <canvas id='myChart' width='300' height='300'></canvas>
           </div>
         </section>
       </main>
@@ -88,8 +88,9 @@ export default function Home(props: any) {
 }
 
 export async function getServerSideProps(context: any) {
-  const response = await fetch('http://localhost:3000/api/cereals');
-  const cereals = await response.json();
+  const conn = await connection();
+  const _cereals = await conn.getRepository(Cereals).find();
+  const cereals = JSON.parse(JSON.stringify(_cereals));
   return {
     props: { cereals },
   };
