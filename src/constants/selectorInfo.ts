@@ -1,0 +1,15 @@
+export const selectorInfo = [
+  { value: 'calories', label: 'calories' },
+  { value: 'protein', label: 'protein' },
+  { value: 'fat', label: 'fat' },
+  { value: 'sodium', label: 'sodium' },
+  { value: 'fiber', label: 'fiber' },
+  { value: 'carbo', label: 'carbo' },
+  { value: 'sugars', label: 'sugars' },
+  { value: 'potass', label: 'potass' },
+  { value: 'vitamins', label: 'vitamins' },
+  { value: 'shelf', label: 'shelf' },
+  { value: 'weight', label: 'weight' },
+  { value: 'cups', label: 'cups' },
+  { value: 'rating', label: 'rating' },
+];

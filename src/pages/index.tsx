@@ -3,8 +3,9 @@ import { Inter } from '@next/font/google';
 import React, { ChangeEvent, useState } from 'react';
 import Chart from 'chart.js/auto';
 import 'reflect-metadata';
-import { selectorInfo } from 'src/configs/selectorInfo';
-import { chartInfo } from 'src/configs/chartInfo';
+import { selectorInfo } from 'src/constants/selectorInfo';
+import { chartInfo } from 'src/constants/chartInfo';
+import { Select } from 'src/components/selector';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -69,40 +70,6 @@ export default function Home(props: any) {
         </section>
       </main>
     </>
-  );
-}
-
-type Option = {
-  value: string;
-  label: string;
-};
-
-type SelectProps = {
-  options: Option[];
-  defaultValue?: string;
-  onChange?: (value: string) => void;
-};
-
-/**
- * セレクトボックス
- * @param
- * @returns
- */
-export function Select({ options, defaultValue, onChange }: SelectProps) {
-  const [value, setValue] = useState(defaultValue || '');
-
-  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const newValue = event.target.value;
-    setValue(newValue);
-    onChange && onChange(newValue);
-  };
-
-  return (
-    <select value={value} onChange={handleChange}>
-      {options.map((option) => (
-        <option key={option.label}>{option.label}</option>
-      ))}
-    </select>
   );
 }
 
