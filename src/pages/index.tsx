@@ -1,16 +1,24 @@
 import Head from 'next/head';
 import { Inter } from '@next/font/google';
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import Chart from 'chart.js/auto';
 import 'reflect-metadata';
 
 const inter = Inter({ subsets: ['latin'] });
 
+// 各軸の設定値
+type selectValues = {
+  x: string;
+  y: string;
+};
+
 export default function Home(props: any) {
+  // セレクタから各軸の変更を受け取る。
+  const [selectValues, setSelectValues] = useState<selectValues>({ x: 'carbo', y: 'calories' });
   React.useEffect(() => {
     let cerealChart: Chart;
     const cereals = props.cereals.map((cereal: any) => {
-      return { x: cereal.calories, y: cereal.carbo };
+      return { x: cereal[selectValues.x], y: cereal[selectValues.y] };
     });
     const config: any = {
       type: 'scatter',
@@ -34,7 +42,7 @@ export default function Home(props: any) {
             display: true,
             title: {
               display: true,
-              text: 'Calories',
+              text: selectValues.x,
               font: {
                 size: 20,
                 weight: 'bold',
@@ -47,7 +55,7 @@ export default function Home(props: any) {
             display: true,
             title: {
               display: true,
-              text: 'Carbo',
+              text: selectValues.y,
               font: {
                 size: 20,
                 weight: 'bold',
@@ -63,7 +71,41 @@ export default function Home(props: any) {
     return () => {
       cerealChart.destroy();
     };
-  }, []);
+  }, [selectValues]);
+
+  // 軸のラベル一覧
+  const options = [
+    { label: 'calories' },
+    { label: 'protein' },
+    { label: 'fat' },
+    { label: 'sodium' },
+    { label: 'fiber' },
+    { label: 'carbo' },
+    { label: 'sugars' },
+    { label: 'potass' },
+    { label: 'vitamins' },
+    { label: 'shelf' },
+    { label: 'weight' },
+    { label: 'cups' },
+    { label: 'rating' },
+  ];
+
+  // X軸の反映
+  const handleSelectXChange = (value: string) => {
+    setSelectValues((prevSelectValues) => ({
+      ...prevSelectValues,
+      x: value,
+    }));
+  };
+
+  // Y軸の反映
+  const handleSelectYChange = (value: string) => {
+    setSelectValues((prevSelectValues) => ({
+      ...prevSelectValues,
+      y: value,
+    }));
+  };
+
   return (
     <>
       <Head>
@@ -76,12 +118,49 @@ export default function Home(props: any) {
         <section style={{ padding: '10pt' }}>
           <h1>chart-js-app</h1>
           <p>シリアルのデータ</p>
+          X軸: <Select options={options} defaultValue='carbo' onChange={handleSelectXChange} />
+          <br />
+          Y軸: <Select options={options} defaultValue='calories' onChange={handleSelectYChange} />
           <div style={{ width: '400pt' }}>
             <canvas id='cerealChart' width='300' height='300'></canvas>
           </div>
         </section>
       </main>
     </>
+  );
+}
+
+type Option = {
+  value: string;
+  label: string;
+};
+
+type SelectProps = {
+  options: Option[];
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+};
+
+/**
+ * セレクトボックス
+ * @param
+ * @returns
+ */
+export function Select({ options, defaultValue, onChange }: SelectProps) {
+  const [value, setValue] = useState(defaultValue || '');
+
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const newValue = event.target.value;
+    setValue(newValue);
+    onChange && onChange(newValue);
+  };
+
+  return (
+    <select value={value} onChange={handleChange}>
+      {options.map((option) => (
+        <option key={option.label}>{option.label}</option>
+      ))}
+    </select>
   );
 }
 
