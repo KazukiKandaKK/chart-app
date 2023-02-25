@@ -3,6 +3,8 @@ import { Inter } from '@next/font/google';
 import React, { ChangeEvent, useState } from 'react';
 import Chart from 'chart.js/auto';
 import 'reflect-metadata';
+import { selectorInfo } from 'src/configs/selectorInfo';
+import { chartInfo } from 'src/configs/chartInfo';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,53 +22,7 @@ export default function Home(props: any) {
     const cereals = props.cereals.map((cereal: any) => {
       return { x: cereal[selectValues.x], y: cereal[selectValues.y] };
     });
-    const config: any = {
-      type: 'scatter',
-      data: {
-        datasets: [
-          {
-            label: `${cereals.length} Cereals`,
-            backgroundColor: 'rgb(255, 99, 132)',
-            data: cereals,
-          },
-        ],
-      },
-      options: {
-        plugins: {
-          legend: {
-            position: 'bottom',
-          },
-        },
-        scales: {
-          x: {
-            display: true,
-            title: {
-              display: true,
-              text: selectValues.x,
-              font: {
-                size: 20,
-                weight: 'bold',
-                lineHeight: 1.2,
-              },
-              padding: { top: 20, left: 0, right: 0, bottom: 0 },
-            },
-          },
-          y: {
-            display: true,
-            title: {
-              display: true,
-              text: selectValues.y,
-              font: {
-                size: 20,
-                weight: 'bold',
-                lineHeight: 1.2,
-              },
-              padding: { top: 20, left: 0, right: 0, bottom: 0 },
-            },
-          },
-        },
-      },
-    };
+    const config = chartInfo(cereals, selectValues);
     cerealChart = new Chart(document.getElementById('cerealChart') as HTMLCanvasElement, config);
     return () => {
       cerealChart.destroy();
@@ -74,21 +30,7 @@ export default function Home(props: any) {
   }, [selectValues]);
 
   // 軸のラベル一覧
-  const options = [
-    { label: 'calories' },
-    { label: 'protein' },
-    { label: 'fat' },
-    { label: 'sodium' },
-    { label: 'fiber' },
-    { label: 'carbo' },
-    { label: 'sugars' },
-    { label: 'potass' },
-    { label: 'vitamins' },
-    { label: 'shelf' },
-    { label: 'weight' },
-    { label: 'cups' },
-    { label: 'rating' },
-  ];
+  const options = selectorInfo;
 
   // X軸の反映
   const handleSelectXChange = (value: string) => {
