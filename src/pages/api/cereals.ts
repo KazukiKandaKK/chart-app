@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import Cereals from 'src/entity/cereals.entity';
-import connection from 'src/db/connection';
+import Cereals from 'src/database/entity/cereals.entity';
+import connection from 'src/database/connection';
 
 // キャッシュを取得しておく。
 let cachedData: any;
