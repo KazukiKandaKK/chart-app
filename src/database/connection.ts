@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import Cereals from 'src/entity/cereals.entity';
+import Cereals from 'src/database/entity/cereals.entity';
 
 // DBの設定を.envから取得。
 const dbInfo = process.env;

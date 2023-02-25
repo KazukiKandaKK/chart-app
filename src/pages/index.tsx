@@ -1,19 +1,14 @@
 import Head from 'next/head';
 import { Inter } from '@next/font/google';
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import Chart from 'chart.js/auto';
 import 'reflect-metadata';
-import { selectorInfo } from 'src/constants/selectorInfo';
-import { chartInfo } from 'src/constants/chartInfo';
+import { selectorInfo } from 'src/constants/selectorConst';
+import { chartInfo } from 'src/constants/chartConst';
 import { Select } from 'src/components/selector';
+import { selectValues } from 'src/types/chartType';
 
 const inter = Inter({ subsets: ['latin'] });
-
-// 各軸の設定値
-type selectValues = {
-  x: string;
-  y: string;
-};
 
 export default function Home(props: any) {
   // セレクタから各軸の変更を受け取る。

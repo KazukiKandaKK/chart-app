@@ -1,4 +1,6 @@
-export const chartInfo = (cereals: any, selectValues: any) => {
+import { selectValues } from 'src/types/chartType';
+
+export const chartInfo = (cereals: any, selectValues: selectValues) => {
   return {
     type: 'scatter',
     data: {

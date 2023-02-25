@@ -1,16 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-
-type Option = {
-  value: string;
-  label: string;
-};
-
-type SelectProps = {
-  options: Option[];
-  defaultValue?: string | undefined;
-  onChange?: (value: string) => void;
-};
-
+import { SelectProps } from 'src/types/selector';
 /**
  * セレクタのコンポーネント
  * @param
