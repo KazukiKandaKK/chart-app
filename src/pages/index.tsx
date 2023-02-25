@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export default function Home(props: any) {
   React.useEffect(() => {
-    let myChart: any = null;
+    let cerealChart: Chart;
     const cereals = props.cereals.map((cereal: any) => {
       return { x: cereal.calories, y: cereal.carbo };
     });
@@ -19,7 +19,7 @@ export default function Home(props: any) {
       data: {
         datasets: [
           {
-            label: '80 Cereals',
+            label: `${cereals.length} Cereals`,
             backgroundColor: 'rgb(255, 99, 132)',
             data: cereals,
           },
@@ -61,9 +61,9 @@ export default function Home(props: any) {
         },
       },
     };
-    myChart = new Chart(document.getElementById('myChart') as HTMLCanvasElement, config);
+    cerealChart = new Chart(document.getElementById('cerealChart') as HTMLCanvasElement, config);
     return () => {
-      myChart.destroy();
+      cerealChart.destroy();
     };
   }, []);
   return (
@@ -79,7 +79,7 @@ export default function Home(props: any) {
           <h1>chart-js-app</h1>
           <p>シリアルのデータ</p>
           <div style={{ width: '400pt' }}>
-            <canvas id='myChart' width='300' height='300'></canvas>
+            <canvas id='cerealChart' width='300' height='300'></canvas>
           </div>
         </section>
       </main>
