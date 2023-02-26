@@ -13,3 +13,20 @@ export const selectorInfo = [
   { value: 'cups', label: 'cups' },
   { value: 'rating', label: 'rating' },
 ];
+
+export const filteredMfrInfo = [
+  { value: 'All', label: 'All' },
+  { value: 'N', label: 'N' },
+  { value: 'Q', label: 'Q' },
+  { value: 'K', label: 'K' },
+  { value: 'R', label: 'R' },
+  { value: 'G', label: 'G' },
+  { value: 'P', label: 'P' },
+  { value: 'A', label: 'A' },
+];
+
+export const filteredTypeInfo = [
+  { value: 'All', label: 'All' },
+  { value: 'C', label: 'C' },
+  { value: 'H', label: 'H' },
+];
