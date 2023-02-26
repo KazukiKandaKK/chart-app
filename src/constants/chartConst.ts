@@ -1,4 +1,4 @@
-import { selectValues } from 'src/types/chartType';
+import { selectValues } from 'src/types/chart';
 
 export const chartInfo = (cereals: any, selectValues: selectValues) => {
   return {
