@@ -1,23 +1,37 @@
-import Head from 'next/head';
 import { Inter } from '@next/font/google';
 import React, { useState } from 'react';
 import Chart from 'chart.js/auto';
 import 'reflect-metadata';
-import { selectorInfo } from 'src/constants/selectorConst';
+import { selectorInfo, filteredMfrInfo, filteredTypeInfo } from 'src/constants/selectorConst';
 import { chartInfo } from 'src/constants/chartConst';
 import { Select } from 'src/components/selector';
-import { selectValues } from 'src/types/chartType';
+import { selectValues } from 'src/types/chart';
+import ChartView from 'src/layouts/chart';
+import { Dictionary } from 'src/types/common';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home(props: any) {
   // セレクタから各軸の変更を受け取る。
-  const [selectValues, setSelectValues] = useState<selectValues>({ x: 'carbo', y: 'calories' });
+  const [selectValues, setSelectValues] = useState<selectValues>({
+    x: 'carbo',
+    y: 'calories',
+    mfr: 'All',
+    type: 'All',
+  });
   React.useEffect(() => {
     let cerealChart: Chart;
-    const cereals = props.cereals.map((cereal: any) => {
-      return { x: cereal[selectValues.x], y: cereal[selectValues.y] };
-    });
+
+    const cereals = props.cereals
+      .filter((cereal: any) => {
+        const mfr = selectValues.mfr !== 'All' ? cereal['mfr'] === selectValues.mfr : true;
+        const type = selectValues.type !== 'All' ? cereal['type'] === selectValues.type : true;
+        return mfr && type;
+      })
+      .map((cereal: any) => {
+        return { x: cereal[selectValues.x], y: cereal[selectValues.y] };
+      });
+
     const config = chartInfo(cereals, selectValues);
     cerealChart = new Chart(document.getElementById('cerealChart') as HTMLCanvasElement, config);
     return () => {
@@ -26,7 +40,11 @@ export default function Home(props: any) {
   }, [selectValues]);
 
   // 軸のラベル一覧
-  const options = selectorInfo;
+  const options: Dictionary<any> = {
+    axis: selectorInfo,
+    mfr: filteredMfrInfo,
+    type: filteredTypeInfo,
+  };
 
   // X軸の反映
   const handleSelectXChange = (value: string) => {
@@ -44,28 +62,30 @@ export default function Home(props: any) {
     }));
   };
 
-  return (
-    <>
-      <Head>
-        <title>chart-js-app</title>
-        <meta name='description' content='Chart.jsで散布図を表示するアプリ' />
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-      <main>
-        <section style={{ padding: '10pt' }}>
-          <h1>chart-js-app</h1>
-          <p>シリアルのデータ</p>
-          X軸: <Select options={options} defaultValue='carbo' onChange={handleSelectXChange} />
-          <br />
-          Y軸: <Select options={options} defaultValue='calories' onChange={handleSelectYChange} />
-          <div style={{ width: '400pt' }}>
-            <canvas id='cerealChart' width='300' height='300'></canvas>
-          </div>
-        </section>
-      </main>
-    </>
-  );
+  // Mfrの反映
+  const handleSelectMfrChange = (value: string) => {
+    setSelectValues((prevSelectValues) => ({
+      ...prevSelectValues,
+      mfr: value,
+    }));
+  };
+
+  // Typeの反映
+  const handleSelectTypeChange = (value: string) => {
+    setSelectValues((prevSelectValues) => ({
+      ...prevSelectValues,
+      type: value,
+    }));
+  };
+
+  const handles: Dictionary<any> = {
+    x: handleSelectXChange,
+    y: handleSelectYChange,
+    mfr: handleSelectMfrChange,
+    type: handleSelectTypeChange,
+  };
+
+  return ChartView(handles, options);
 }
 
 export async function getServerSideProps(context: any) {

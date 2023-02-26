@@ -2,4 +2,6 @@
 export type selectValues = {
   x: string;
   y: string;
+  mfr: string;
+  type: string;
 };
