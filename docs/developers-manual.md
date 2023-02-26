@@ -1,10 +1,8 @@
 # 開発者用マニュアル
-
 ## アプリケーションの開発環境
-
 ### 実行方法
 
-Node.jsのバージョンは16.13.2で動作確認しています。ローカルで開発される場合はこちらに相当するNode環境の準備をお願いいたします。
+※Node.jsのバージョンは16.13.2。  
 
 1. `npm ci` を実行
 2. `npm run dev` を実行
@@ -14,40 +12,36 @@ Node.jsのバージョンは16.13.2で動作確認しています。ローカル
 
 - Docker環境 (Windows)
 
-VSCodeを使われている場合は、拡張機能の「Dev Containers」を使うのが便利です。
-※もし初回でエラーが出たら一度 `docker compose up -d` を実行してみてください。
+VSCodeを使用する場合、拡張機能の「Dev Containers」の使用を推奨する。  
+※初回でエラー時は `docker compose up -d` を実行すること。  
 
-1. Docker環境の起動 <br>
-  1-a. 通常起動する場合： `docker compose up -d` <br>
-  1-b. Dev Containersを使う場合： VSCodeの画面左下「><」みたいなボタンから「Reopen in Container」を選択 <br>
-1. `npm ci` を実行
-1. `npm run dev` を実行
-1. <http://localhost:3000/> を開く
+1. Docker環境の起動  
+  1-a. 通常起動する場合： `docker compose up -d`  
+  1-b. Dev Containersを使う場合： VSCodeの画面左下「><」みたいなボタンから「Reopen in Container」を選択  
+2. `npm run dev` を実行
+3. <http://localhost:3000/> を開く
 
 ### 一部の任意実装項目用のMakeコマンド
-
-一部の課題項目でデータベースを利用します。
-DBコンテナとマイグレーションのスクリプトを用意していますのでご活用ください。
+DBコンテナの作成とマイグレーションのスクリプトの実行方法を下記に記載する。  
 
 #### 方法
 
 1. `docker-compose up -d`でコンテナを立ち上げる。
-2. `make db-init`を実行するとシリアルのデータがデータベースに格納されます。
+2. `make db-init`を実行するとシリアルのデータがデータベースに格納される。
 
-Windowsの場合は以下の方法でMakeコマンドを準備できます。
+Windowsの場合は以下の方法でMakeコマンドを使用できる。  
+※Windows11で動作確認済。
 
 <details>
 <summary>WindowsでMakeコマンドを準備する方法 <br> (クリックで開く)</summary>
 
-Windows11で動作確認してます。
-
 1. [Make for Windows](https://gnuwin32.sourceforge.net/packages/make.htm)からMakeのインストールファイルをダウンロードする。
 ![image](https://user-images.githubusercontent.com/37053383/211447419-739f556a-fd79-4a6e-888f-a11ead2f79a0.png)
-2. ダウンロードしたファイルをインストールする
-3. 環境変数にmake.exeのファイルパスを追加する。
+1. ダウンロードしたファイルをインストールする
+2. 環境変数にmake.exeのファイルパスを追加する。
    例：`C:\Program Files (x86)\GnuWin32\bin`
 
-Makeインストールの方法は[こちら](https://camedphone.com/archives/1192)の記事が詳細で参考となります。
+詳細は[こちら](https://camedphone.com/archives/1192)のリンクを参照する。
 
 ```sh
 # PowerShellでの実行結果
