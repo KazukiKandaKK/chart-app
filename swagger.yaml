@@ -20,6 +20,23 @@ paths:
                   $ref: '#/components/schemas/Cereal'
         500:
           description: Internal Server Error
+    post:
+      summary: 'シリアルの情報を格納するAPI'
+      description: '指定したシリアルの情報をすべて追加する。'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cereal'
+          text/plain:
+            schema:
+              type: string
+      responses:
+        201:
+          description: Created
+        500:
+          description: Internal Server Error
 
   /resorce/{id}:
     get:
