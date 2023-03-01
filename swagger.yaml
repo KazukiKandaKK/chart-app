@@ -1,0 +1,113 @@
+swagger: '2.0'
+info:
+  description: 'シリアルのデータを操作するAPI'
+  version: '1.0.0'
+  title: 'chart-js-app API'
+
+paths:
+  /resorce:
+    get:
+      summary: シリアルの情報を全て取得するAPI"
+      description: 'シリアルの情報を全て取得する。'
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Cereal'
+        500:
+          description: Internal Server Error
+
+  /resorce/{id}:
+    get:
+      summary: 指定したシリアルの情報を取得するAPI"
+      description: '指定されたシリアルの情報を取得する。'
+      parameters:
+        - name: 'id'
+          in: 'path'
+          description: '取得したいシリアルのID'
+          required: true
+          type: 'integer'
+          format: 'int64'
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Cereal'
+        500:
+          description: Internal Server Error
+
+definitions:
+  Cereal:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        example: 1
+      name:
+        type: string
+        example: Sample
+      mfr:
+        type: string
+        example: N
+      type:
+        type: string
+        example: C
+      calories:
+        type: integer
+        format: int64
+        example: 100
+      protein:
+        type: integer
+        format: int64
+        example: 3
+      fat:
+        type: integer
+        format: int64
+        example: 2
+      sodium:
+        type: integer
+        format: int64
+        example: 130
+      fiber:
+        type: integer
+        format: int64
+        example: 10
+      carbo:
+        type: integer
+        format: int64
+        example: 8
+      sugars:
+        type: integer
+        format: int64
+        example: 2
+      potass:
+        type: integer
+        format: int64
+        example: 200
+      vitamins:
+        type: integer
+        format: int64
+        example: 25
+      shelf:
+        type: integer
+        format: int64
+        example: 1
+      weight:
+        type: integer
+        format: int64
+        example: 1
+      cups:
+        type: integer
+        format: int64
+        example: 0.33
+      rating:
+        type: integer
+        format: int64
+        example: 12.345678
+    required:
+      - id
