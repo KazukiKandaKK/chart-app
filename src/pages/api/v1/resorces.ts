@@ -19,8 +19,6 @@ export default async function resorce(req: NextApiRequest, res: NextApiResponse)
       let cereals: cerealsType;
       if (req.query.id) {
         const _cereals = await conn.getRepository(Cereals).findOne({ where: { id: req.query.id } });
-        console.log('A');
-        console.log(_cereals);
         cereals = await getCerealData(_cereals);
       } else {
         const _cereals = await conn.getRepository(Cereals).find();
