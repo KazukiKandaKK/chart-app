@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import Cereals from 'src/database/entity/cereals.entity';
 import connection from 'src/database/connection';
 import { cerealsType } from './types/cereals';
-import { Connection } from 'typeorm';
+import { Connection, In } from 'typeorm';
 
 // 接続をキャッシュする場合の変数
 let cachedConnection: Connection | undefined;
@@ -21,13 +21,14 @@ export default async function resorce(req: NextApiRequest, res: NextApiResponse)
   try {
     if (req.method === 'GET') {
       let cereals: cerealsType;
+      let query = {};
+      // idが指定された場合は、条件を指定する。
       if (req.query.id) {
-        const _cereals = await conn.getRepository(Cereals).findOne({ where: { id: req.query.id } });
-        cereals = await getCerealData(_cereals);
-      } else {
-        const _cereals = await conn.getRepository(Cereals).find();
-        cereals = await getCerealData(_cereals);
+        const id = req.query.id.split(',');
+        query = { where: { id: In(id) } };
       }
+      const _cereals = await conn.getRepository(Cereals).find(query);
+      cereals = await getCerealData(_cereals);
       res.status(200).json(cereals);
     } else if (req.method === 'POST') {
       const data: cerealsType = req.body;
