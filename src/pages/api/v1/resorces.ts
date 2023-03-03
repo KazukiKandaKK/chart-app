@@ -3,18 +3,22 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import Cereals from 'src/database/entity/cereals.entity';
 import connection from 'src/database/connection';
 import { cerealsType } from './types/cereals';
+import { Connection } from 'typeorm';
 
-// キャッシュを取得しておく。
-let cachedData: cerealsType;
+// 接続をキャッシュする場合の変数
+let cachedConnection: Connection | undefined;
 
 export default async function resorce(req: NextApiRequest, res: NextApiResponse) {
-  // キャッシュが残っている場合はそのまま返し、DB処理は行わない。
-  if (cachedData) {
-    return res.status(200).json(cachedData);
+  let conn: Connection | undefined;
+
+  // キャッシュされた接続があればそれを使う
+  if (cachedConnection && cachedConnection.isConnected) {
+    conn = cachedConnection;
+  } else {
+    conn = await connection();
+    cachedConnection = conn;
   }
   try {
-    // DBへの接続を確立させておく。
-    const conn = await connection();
     if (req.method === 'GET') {
       let cereals: cerealsType;
       if (req.query.id) {
@@ -24,7 +28,6 @@ export default async function resorce(req: NextApiRequest, res: NextApiResponse)
         const _cereals = await conn.getRepository(Cereals).find();
         cereals = await getCerealData(_cereals);
       }
-      cachedData = cereals;
       res.status(200).json(cereals);
     } else if (req.method === 'POST') {
       const data: cerealsType = req.body;
@@ -36,6 +39,10 @@ export default async function resorce(req: NextApiRequest, res: NextApiResponse)
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
+  } finally {
+    if (conn) {
+      await conn.close();
+    }
   }
 }
 
