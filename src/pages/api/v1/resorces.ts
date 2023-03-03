@@ -2,10 +2,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Cereals from 'src/database/entity/cereals.entity';
 import connection from 'src/database/connection';
-import { cerealsType } from './v1/types/cereals';
+import { cerealsType } from './types/cereals';
 
 // キャッシュを取得しておく。
-let cachedData: any;
+let cachedData: cerealsType;
 
 export default async function resorce(req: NextApiRequest, res: NextApiResponse) {
   // キャッシュが残っている場合はそのまま返し、DB処理は行わない。
