@@ -89,7 +89,7 @@ export default function Home(props: any) {
 }
 
 export async function getServerSideProps(context: any) {
-  const response = await fetch('http://localhost:3000/api/cereals');
+  const response = await fetch('http://localhost:3000/api/v1/cereals');
   const cereals = await response.json();
   return {
     props: { cereals },
