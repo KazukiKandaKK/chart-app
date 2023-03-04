@@ -2,18 +2,19 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Cereals from 'src/database/entity/cereals.entity';
 import connection from 'src/database/connection';
+import { cerealsType } from './types/cereals';
 
 // キャッシュを取得しておく。
-let cachedData: any;
+let cachedData: cerealsType;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function cereals(req: NextApiRequest, res: NextApiResponse) {
   // キャッシュが残っている場合
   if (cachedData) {
     return res.status(200).json(cachedData);
   }
 
   try {
-    const cereals = await getCerealData();
+    const cereals: cerealsType = await getCerealData();
     cachedData = cereals;
     res.status(200).json(cereals);
   } catch (error) {
@@ -29,6 +30,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 export async function getCerealData() {
   const conn = await connection();
   const _cereals = await conn.getRepository(Cereals).find();
-  const cereals = JSON.parse(JSON.stringify(_cereals));
+  const cereals: cerealsType = JSON.parse(JSON.stringify(_cereals));
   return cereals;
 }
