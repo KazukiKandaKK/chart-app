@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { Select } from 'src/components/selector';
 import { Dictionary } from 'src/types/common';
 
+// 画面にレンダリングするHTML
 const ChartView = (handles: Dictionary<any>, options: Dictionary<any>) => {
   return (
     <>

@@ -12,7 +12,7 @@ import { Dictionary } from 'src/types/common';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home(props: any) {
-  // セレクタから各軸の変更を受け取る。
+  // セレクトボックスから各軸の変更を受け取る。
   const [selectValues, setSelectValues] = useState<selectValues>({
     x: 'carbo',
     y: 'calories',
@@ -21,7 +21,7 @@ export default function Home(props: any) {
   });
   React.useEffect(() => {
     let cerealChart: Chart;
-
+    // セレクトボックスのmfr, typeのいずれかが変更された場合は、画面に反映させる。
     const cereals = props.cereals
       .filter((cereal: any) => {
         const mfr = selectValues.mfr !== 'All' ? cereal['mfr'] === selectValues.mfr : true;
@@ -78,6 +78,7 @@ export default function Home(props: any) {
     }));
   };
 
+  // 変更される値を纏めておく。
   const handles: Dictionary<any> = {
     x: handleSelectXChange,
     y: handleSelectYChange,

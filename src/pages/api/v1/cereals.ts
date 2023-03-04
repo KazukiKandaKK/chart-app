@@ -8,7 +8,7 @@ import { cerealsType } from './types/cereals';
 let cachedData: cerealsType;
 
 export default async function cereals(req: NextApiRequest, res: NextApiResponse) {
-  // キャッシュが残っている場合
+  // キャッシュが残っている場合はDB接続をしない。
   if (cachedData) {
     return res.status(200).json(cachedData);
   }
@@ -24,8 +24,7 @@ export default async function cereals(req: NextApiRequest, res: NextApiResponse)
 }
 
 /**
- * DBからCerealのデータを取得します。
- * @returns
+ * DBからCerealのデータを取得する。
  */
 export async function getCerealData() {
   const conn = await connection();

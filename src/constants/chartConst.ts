@@ -1,5 +1,6 @@
 import { selectValues } from 'src/types/chart';
 
+// チャートに描画する設定値
 export const chartInfo = (cereals: any, selectValues: selectValues) => {
   return {
     type: 'scatter',

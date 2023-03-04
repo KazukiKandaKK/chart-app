@@ -5,13 +5,13 @@ import connection from 'src/database/connection';
 import { cerealsType } from './types/cereals';
 import { Connection, In } from 'typeorm';
 
-// 接続をキャッシュする場合の変数
+// 接続をキャッシュする場合の変数。
 let cachedConnection: Connection | undefined;
 
 export default async function resorce(req: NextApiRequest, res: NextApiResponse) {
   let conn: Connection | undefined;
 
-  // キャッシュされた接続があればそれを使う
+  // キャッシュされた接続があればそれを使う。
   if (cachedConnection && cachedConnection.isConnected) {
     conn = cachedConnection;
   } else {
@@ -27,6 +27,7 @@ export default async function resorce(req: NextApiRequest, res: NextApiResponse)
         const id = req.query.id.split(',');
         query = { where: { id: In(id) } };
       }
+
       const _cereals = await conn.getRepository(Cereals).find(query);
       cereals = await getCerealData(_cereals);
       res.status(200).json(cereals);
@@ -48,8 +49,7 @@ export default async function resorce(req: NextApiRequest, res: NextApiResponse)
 }
 
 /**
- * DBから取得したCerealのデータを整形します。
- * @returns
+ * DBから取得したCerealのデータを整形する。
  */
 export async function getCerealData(data: any) {
   const cereals = JSON.parse(JSON.stringify(data));
@@ -57,9 +57,10 @@ export async function getCerealData(data: any) {
 }
 
 /**
- * DBに追加できるようにデータを整形します。
+ * DBに追加できるようにデータを整形する。
  */
 export async function createInsertData(cereals: any, data: cerealsType) {
+  // reqest(cerealsType)のkeyを取得し、DBのobjectに格納。
   for (const key in data) {
     if (Object.hasOwnProperty.call(data, key)) {
       cereals[key] = data[key];

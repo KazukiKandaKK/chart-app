@@ -1,13 +1,13 @@
 import React, { ChangeEvent, useState } from 'react';
 import { SelectProps } from 'src/types/selector';
+
 /**
- * セレクタのコンポーネント
- * @param
- * @returns
+ * セレクトボックスのコンポーネント
  */
 export function Select({ options, defaultValue, onChange }: SelectProps) {
   const [value, setValue] = useState(defaultValue || '');
 
+  // セレクトボックスの変更時
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const newValue = event.target.value;
     setValue(newValue);
