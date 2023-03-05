@@ -7,7 +7,7 @@ import { cerealsType } from './types/cereals';
 // キャッシュを取得しておく。
 let cachedData: cerealsType;
 
-export default async function cereals(req: NextApiRequest, res: NextApiResponse) {
+export default async function cereals(req: NextApiRequest, res: NextApiResponse): Promise<any> {
   // キャッシュが残っている場合はDB接続をしない。
   if (cachedData) {
     return res.status(200).json(cachedData);
@@ -26,9 +26,8 @@ export default async function cereals(req: NextApiRequest, res: NextApiResponse)
 /**
  * DBからCerealのデータを取得する。
  */
-export async function getCerealData() {
+export async function getCerealData(): Promise<cerealsType> {
   const conn = await connection();
-  const _cereals = await conn.getRepository(Cereals).find();
-  const cereals: cerealsType = JSON.parse(JSON.stringify(_cereals));
-  return cereals;
+  const cerealRepo = await conn.getRepository(Cereals).find();
+  return JSON.parse(JSON.stringify(cerealRepo));
 }

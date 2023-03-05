@@ -11,7 +11,7 @@ import { Dictionary } from 'src/types/common';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function Home(props: any) {
+export default function renderingChart(props: any): JSX.Element {
   // セレクトボックスから各軸の変更を受け取る。
   const [selectValues, setSelectValues] = useState<selectValues>({
     x: 'carbo',
@@ -19,11 +19,14 @@ export default function Home(props: any) {
     mfr: 'All',
     type: 'All',
   });
+
   React.useEffect(() => {
     let cerealChart: Chart;
     // セレクトボックスのmfr, typeのいずれかが変更された場合は、画面に反映させる。
     const cereals = props.cereals
       .filter((cereal: any) => {
+        // 選択されたmfrとtypeで絞り込む(AND条件)
+        // NOTE: それぞれでセレクトボックスの値が選択された場合に、一致するレコードのbooleanを返す。
         const mfr = selectValues.mfr !== 'All' ? cereal['mfr'] === selectValues.mfr : true;
         const type = selectValues.type !== 'All' ? cereal['type'] === selectValues.type : true;
         return mfr && type;
@@ -78,7 +81,7 @@ export default function Home(props: any) {
     }));
   };
 
-  // 変更される値を纏めておく。
+  // 変更される値を纏めておく
   const handles: Dictionary<any> = {
     x: handleSelectXChange,
     y: handleSelectYChange,
@@ -89,7 +92,7 @@ export default function Home(props: any) {
   return ChartView(handles, options);
 }
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps(context: any): Promise<any> {
   const response = await fetch('http://localhost:3000/api/v1/cereals');
   const cereals = await response.json();
   return {

@@ -28,14 +28,14 @@ export default async function resorce(req: NextApiRequest, res: NextApiResponse)
         query = { where: { id: In(id) } };
       }
 
-      const _cereals = await conn.getRepository(Cereals).find(query);
-      cereals = await getCerealData(_cereals);
+      const cerealRepo = await conn.getRepository(Cereals).find(query);
+      cereals = await getCerealData(cerealRepo);
       res.status(200).json(cereals);
     } else if (req.method === 'POST') {
       const data: cerealsType = req.body;
-      const _cereals = await conn.getRepository(Cereals);
-      const insertData = await createInsertData(_cereals, data);
-      await _cereals.save(insertData);
+      const cerealRepo = await conn.getRepository(Cereals);
+      const insertData = await createInsertData(cerealRepo, data);
+      await cerealRepo.save(insertData);
       await res.status(201).json({ message: 'Created' });
     }
   } catch (error) {
@@ -51,7 +51,7 @@ export default async function resorce(req: NextApiRequest, res: NextApiResponse)
 /**
  * DBから取得したCerealのデータを整形する。
  */
-export async function getCerealData(data: any) {
+export async function getCerealData(data: any): Promise<any> {
   const cereals = JSON.parse(JSON.stringify(data));
   return cereals;
 }
@@ -59,7 +59,7 @@ export async function getCerealData(data: any) {
 /**
  * DBに追加できるようにデータを整形する。
  */
-export async function createInsertData(cereals: any, data: cerealsType) {
+export async function createInsertData(cereals: any, data: cerealsType): Promise<any> {
   // reqest(cerealsType)のkeyを取得し、DBのobjectに格納。
   for (const key in data) {
     if (Object.hasOwnProperty.call(data, key)) {

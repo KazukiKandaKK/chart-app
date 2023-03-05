@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { createConnection } from 'typeorm';
+import { createConnection, Connection } from 'typeorm';
 import Cereals from 'src/database/entity/cereals.entity';
 
 // DBの設定を.envから取得。
@@ -14,7 +14,7 @@ const database = dbInfo.POSTGRES_DB;
  * DBに接続する関数
  * @returns
  */
-export default async function connection() {
+export default async function connection(): Promise<Connection> {
   const connection = await createConnection({
     type: 'postgres',
     host,
