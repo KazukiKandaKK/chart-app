@@ -18,8 +18,9 @@ export default async function resorce(req: NextApiRequest, res: NextApiResponse)
     conn = await connection();
     cachedConnection = conn;
   }
+  const reqMethod: string | undefined = req.method;
   try {
-    if (req.method === 'GET') {
+    if (reqMethod === 'GET') {
       let cereals: cerealsType;
       let query = {};
       // idが指定された場合は、条件を指定する。
@@ -30,17 +31,20 @@ export default async function resorce(req: NextApiRequest, res: NextApiResponse)
 
       const cerealRepo = await conn.getRepository(Cereals).find(query);
       cereals = await getCerealData(cerealRepo);
+      console.log('GET /api/v1/resorces');
       res.status(200).json(cereals);
-    } else if (req.method === 'POST') {
+    } else if (reqMethod === 'POST') {
       const data: cerealsType = req.body;
       const cerealRepo = await conn.getRepository(Cereals);
       const insertData = await createInsertData(cerealRepo, data);
       await cerealRepo.save(insertData);
+      console.log(`${reqMethod} /api/v1/resorces, request body: ${JSON.stringify(req.body)}`);
       await res.status(201).json({ message: 'Created' });
     }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
+    console.log(`${reqMethod} /api/v1/resorces`);
   } finally {
     if (conn) {
       await conn.close();

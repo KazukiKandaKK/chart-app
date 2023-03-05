@@ -16,9 +16,11 @@ export default async function cereals(req: NextApiRequest, res: NextApiResponse)
   try {
     const cereals: cerealsType = await getCerealData();
     cachedData = cereals;
+    console.log('GET /api/v1/cereals');
     res.status(200).json(cereals);
   } catch (error) {
     console.error(error);
+    console.log(`GET /api/v1/cereals ${error}`);
     res.status(500).json({ message: 'Failed to get cereals' });
   }
 }
