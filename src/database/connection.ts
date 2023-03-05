@@ -14,18 +14,23 @@ const database = dbInfo.POSTGRES_DB;
  * DBに接続する関数
  * @returns
  */
-export default async function connection(): Promise<Connection> {
-  const connection = await createConnection({
-    type: 'postgres',
-    host,
-    port,
-    username,
-    password,
-    database,
-    entities: [Cereals],
-    synchronize: false,
-    logging: true,
-  });
-
-  return connection;
+export default async function connection(): Promise<Connection | undefined> {
+  let connection: Connection | undefined;
+  try {
+    connection = await createConnection({
+      type: 'postgres',
+      host,
+      port,
+      username,
+      password,
+      database,
+      entities: [Cereals],
+      synchronize: false,
+      logging: true,
+    });
+  } catch (error) {
+    console.error('Failed to connect to database: ', error);
+  } finally {
+    return connection;
+  }
 }

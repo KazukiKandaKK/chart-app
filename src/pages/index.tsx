@@ -4,7 +4,6 @@ import Chart from 'chart.js/auto';
 import 'reflect-metadata';
 import { selectorInfo, filteredMfrInfo, filteredTypeInfo } from 'src/constants/selectorConst';
 import { chartInfo } from 'src/constants/chartConst';
-import { Select } from 'src/components/selector';
 import { selectValues } from 'src/types/chart';
 import ChartView from 'src/layouts/chart';
 import { Dictionary } from 'src/types/common';
