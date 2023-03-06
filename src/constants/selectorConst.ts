@@ -1,3 +1,5 @@
+// TODO: 動的に取得できるようにする。
+// セレクタのX軸、Y軸の選択肢
 export const selectorInfo = [
   { value: 'calories', label: 'calories' },
   { value: 'protein', label: 'protein' },
@@ -14,6 +16,7 @@ export const selectorInfo = [
   { value: 'rating', label: 'rating' },
 ];
 
+// シリアルのメーカ(mfr)の選択肢
 export const filteredMfrInfo = [
   { value: 'All', label: 'All' },
   { value: 'N', label: 'N' },
@@ -25,6 +28,7 @@ export const filteredMfrInfo = [
   { value: 'A', label: 'A' },
 ];
 
+// シリアルの温度(Hot or Cold)の選択肢
 export const filteredTypeInfo = [
   { value: 'All', label: 'All' },
   { value: 'C', label: 'C' },

@@ -1,21 +1,25 @@
 import { selectValues } from 'src/types/chart';
 
+// チャートに描画する設定値
 export const chartInfo = (cereals: any, selectValues: selectValues) => {
   return {
+    // グラフの描画方法
     type: 'scatter',
+    // データに係る設定
     data: {
       datasets: [
         {
-          label: `${cereals.length} Cereals`,
+          label: `${cereals.length} Cereals`, // サンプル総数
           backgroundColor: 'rgb(255, 99, 132)',
           data: cereals,
         },
       ],
     },
+    // 描画のオプション
     options: {
       plugins: {
         legend: {
-          position: 'bottom',
+          position: 'bottom', // 凡例の位置
         },
       },
       scales: {

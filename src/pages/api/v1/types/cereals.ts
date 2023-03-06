@@ -1,3 +1,4 @@
+// DBに読み書きするためのCerealsの型定義
 export type cerealsType = {
   id: number;
   name: string;
