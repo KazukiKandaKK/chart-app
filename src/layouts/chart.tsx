@@ -1,7 +1,9 @@
 import Head from 'next/head';
 import { Select } from 'src/components/selector';
 import { Dictionary } from 'src/types/common';
+import ErrorBoundary from 'src/components/errorBoundary';
 
+// 画面にレンダリングするHTML
 const ChartView = (handles: Dictionary<any>, options: Dictionary<any>) => {
   return (
     <>
@@ -12,20 +14,22 @@ const ChartView = (handles: Dictionary<any>, options: Dictionary<any>) => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <main>
-        <section style={{ padding: '10pt' }}>
-          <h1>chart-js-app</h1>
-          <p>シリアルのデータ</p>
-          X軸: <Select options={options.axis} defaultValue='carbo' onChange={handles.x} />
-          <br />
-          Y軸: <Select options={options.axis} defaultValue='calories' onChange={handles.y} />
-          <br />
-          mfr: <Select options={options.mfr} defaultValue='All' onChange={handles.mfr} />
-          <br />
-          type: <Select options={options.type} defaultValue='All' onChange={handles.type} />
-          <div style={{ width: '400pt' }}>
-            <canvas id='cerealChart' width='300' height='300'></canvas>
-          </div>
-        </section>
+        <ErrorBoundary>
+          <section style={{ padding: '10pt' }}>
+            <h1>chart-js-app</h1>
+            <p>シリアルのデータ</p>
+            X軸: <Select options={options.axis} defaultValue='carbo' onChange={handles.x} />
+            <br />
+            Y軸: <Select options={options.axis} defaultValue='calories' onChange={handles.y} />
+            <br />
+            mfr: <Select options={options.mfr} defaultValue='All' onChange={handles.mfr} />
+            <br />
+            type: <Select options={options.type} defaultValue='All' onChange={handles.type} />
+            <div style={{ width: '400pt' }}>
+              <canvas id='cerealChart' width='300' height='300'></canvas>
+            </div>
+          </section>
+        </ErrorBoundary>
       </main>
     </>
   );
