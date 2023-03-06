@@ -28,6 +28,7 @@ export default async function connection(): Promise<Connection | undefined> {
       synchronize: false,
       logging: true,
     });
+    console.log('Connected Database');
   } catch (error) {
     console.error('Failed to connect to database: ', error);
   } finally {

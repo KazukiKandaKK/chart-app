@@ -30,6 +30,7 @@ export default async function cereals(req: NextApiRequest, res: NextApiResponse)
  */
 export async function getCerealData(): Promise<cerealsType> {
   const conn = await connection();
+  console.log('Connected Database');
   const cerealRepo = await conn.getRepository(Cereals).find();
   return JSON.parse(JSON.stringify(cerealRepo));
 }
