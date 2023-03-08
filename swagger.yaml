@@ -130,12 +130,12 @@ components:
           format: int64
           example: 1
         cups:
-          type: integer
-          format: int64
+          type: number
+          format: float
           example: 0.33
         rating:
-          type: integer
-          format: int64
+          type: number
+          format: float
           example: 12.345678
       required:
         - id
